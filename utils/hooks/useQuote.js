@@ -1,11 +1,7 @@
 const { useEffect, useState, useCallback } = require("react");
 
 const getQuote = async (cached) => {
-  const result = await fetch(
-    cached
-      ? "http://localhost:3000/api/quote-upstash"
-      : "http://localhost:3000/api/quote"
-  );
+  const result = await fetch(cached ? "/api/quote-upstash" : "/api/quote");
   const item = await result.json();
 
   return item.quote;
