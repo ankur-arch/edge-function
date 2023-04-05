@@ -16,7 +16,7 @@ export default async function handler(req, res) {
   const count = !cachedCount ? await database.quote.count() : +cachedCount;
 
   if (!cachedCount) {
-    await redis.setex("count", 100000, count);
+    await redis.set("count", count);
   }
 
   const randomIndex = Math.floor(Math.random() * count);
@@ -36,7 +36,7 @@ export default async function handler(req, res) {
     skip: randomIndex,
   });
 
-  await redis.setex(`item-${randomIndex}`, 100000, randomQuote.quote);
+  await redis.set(`item-${randomIndex}`, randomQuote.quote);
 
   return new Response(JSON.stringify({ quote: randomQuote.quote }), {
     status: 200,
